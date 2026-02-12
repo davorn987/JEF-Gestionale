@@ -19,6 +19,10 @@ public class MainFrame extends JFrame {
     private static final String CARD_CONFIG = "CONFIG";
     private static final String CARD_CLIENTI = "CLIENTI";
     private static final String CARD_FORNITORI = "FORNITORI";
+    private static final String CARD_PRODOTTI_CATEGORIE = "PRODOTTI_CATEGORIE";
+    private static final String CARD_UNITA_MISURA = "UNITA_MISURA";
+    private static final String CARD_ATTRIBUTI_CATEGORIE = "ATTRIBUTI_CATEGORIE";
+    private static final String CARD_ATTRIBUTI = "ATTRIBUTI";
     private static final String CARD_IVA = "IVA";
     private static final String CARD_PAGAMENTI_TIPI = "PAGAMENTI_TIPI";
     private static final String CARD_PAGAMENTI = "PAGAMENTI";
@@ -40,6 +44,10 @@ public class MainFrame extends JFrame {
         contentPanel.add(new ConfigPanel(), CARD_CONFIG);
         contentPanel.add(new ClientiPanel(), CARD_CLIENTI);
         contentPanel.add(new FornitoriPanel(), CARD_FORNITORI);
+        contentPanel.add(new ProdottiCategoriePanel(), CARD_PRODOTTI_CATEGORIE);
+        contentPanel.add(new UnitaMisuraPanel(), CARD_UNITA_MISURA);
+        contentPanel.add(new AttributiCategoriePanel(), CARD_ATTRIBUTI_CATEGORIE);
+        contentPanel.add(new AttributiPanel(), CARD_ATTRIBUTI);
         contentPanel.add(new IvaPanel(), CARD_IVA);
         contentPanel.add(new PagamentiTipiPanel(), CARD_PAGAMENTI_TIPI);
         contentPanel.add(new PagamentiPanel(), CARD_PAGAMENTI);
@@ -75,6 +83,18 @@ public class MainFrame extends JFrame {
         JMenuItem fornitori = new JMenuItem("Fornitori");
         fornitori.addActionListener(e -> showCard(CARD_FORNITORI));
 
+        JMenuItem prodottiCategorie = new JMenuItem("Categorie Prodotto");
+        prodottiCategorie.addActionListener(e -> showCard(CARD_PRODOTTI_CATEGORIE));
+
+        JMenuItem unitaMisura = new JMenuItem("Unità di Misura");
+        unitaMisura.addActionListener(e -> showCard(CARD_UNITA_MISURA));
+
+        JMenuItem attributiCategorie = new JMenuItem("Categorie Attributi");
+        attributiCategorie.addActionListener(e -> showCard(CARD_ATTRIBUTI_CATEGORIE));
+
+        JMenuItem attributi = new JMenuItem("Attributi");
+        attributi.addActionListener(e -> showCard(CARD_ATTRIBUTI));
+
         JMenuItem iva = new JMenuItem("IVA");
         iva.addActionListener(e -> showCard(CARD_IVA));
 
@@ -90,6 +110,12 @@ public class MainFrame extends JFrame {
 
         anagrafica.add(clienti);
         anagrafica.add(fornitori);
+        anagrafica.addSeparator();
+        anagrafica.add(prodottiCategorie);
+        anagrafica.add(unitaMisura);
+        anagrafica.add(attributiCategorie);
+        anagrafica.add(attributi);
+        anagrafica.addSeparator();
         anagrafica.add(iva);
         anagrafica.addSeparator();
         anagrafica.add(tipiPag);
