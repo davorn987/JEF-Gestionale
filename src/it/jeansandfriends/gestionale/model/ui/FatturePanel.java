@@ -5,10 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class AziendaPanel extends JPanel {
+public class FatturePanel extends JPanel {
 
-    public AziendaPanel() {
+    public FatturePanel() {
         setLayout(new BorderLayout());
-        add(new JLabel("TODO: editor dati Azienda (singola riga)"), BorderLayout.CENTER);
+        add(new JLabel("TODO: gestione Fatture + righe + sconti + IVA"), BorderLayout.CENTER);
     }
 }
