@@ -13,19 +13,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import it.jeansandfriends.gestionale.model.Nazione;
+import it.jeansandfriends.gestionale.model.Provincia;
 
-public class NazioneEditDialog extends JDialog {
+public class ProvinciaEditDialog extends JDialog {
 
-    private final JTextField txtCodice = new JTextField(10);
-    private final JTextField txtDescrizione = new JTextField(30);
+    private final JTextField txtSigla = new JTextField(10);
+    private final JTextField txtNome = new JTextField(30);
 
     private boolean confirmed = false;
-    private final Nazione naz;
+    private final Provincia prov;
 
-    public NazioneEditDialog(JFrame owner, String title, Nazione toEditOrNull) {
+    public ProvinciaEditDialog(JFrame owner, String title, Provincia toEditOrNull) {
         super(owner, title, true);
-        this.naz = (toEditOrNull != null) ? cloneNazione(toEditOrNull) : new Nazione();
+        this.prov = (toEditOrNull != null) ? cloneProvincia(toEditOrNull) : new Provincia();
 
         setSize(520, 230);
         setLocationRelativeTo(owner);
@@ -40,15 +40,15 @@ public class NazioneEditDialog extends JDialog {
 
         int r = 0;
         gbc.gridx = 0; gbc.gridy = r; gbc.weightx = 0;
-        form.add(new JLabel("Codice ISO2* (es: IT)"), gbc);
+        form.add(new JLabel("Sigla* (es: MI)"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
-        form.add(txtCodice, gbc);
+        form.add(txtSigla, gbc);
         r++;
 
         gbc.gridx = 0; gbc.gridy = r; gbc.weightx = 0;
-        form.add(new JLabel("Descrizione (IT)*"), gbc);
+        form.add(new JLabel("Nome*"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
-        form.add(txtDescrizione, gbc);
+        form.add(txtNome, gbc);
         r++;
 
         add(form, BorderLayout.CENTER);
@@ -64,35 +64,35 @@ public class NazioneEditDialog extends JDialog {
         buttons.add(btnCancel);
         add(buttons, BorderLayout.SOUTH);
 
-        txtCodice.setText(nvl(naz.getCodiceIso2()));
-        txtDescrizione.setText(nvl(naz.getDescrizioneIt()));
+        txtSigla.setText(nvl(prov.getSigla()));
+        txtNome.setText(nvl(prov.getNome()));
     }
 
     private void onSave() {
-        String cod = txtCodice.getText().trim().toUpperCase();
-        String desc = txtDescrizione.getText().trim();
+        String sigla = txtSigla.getText().trim().toUpperCase();
+        String nome = txtNome.getText().trim();
 
-        if (cod.isEmpty() || desc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Codice e descrizione sono obbligatori.", "Validazione", JOptionPane.WARNING_MESSAGE);
+        if (sigla.isEmpty() || nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sigla e Nome sono obbligatori.", "Validazione", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (cod.length() != 2) {
-            JOptionPane.showMessageDialog(this, "Il codice ISO2 deve essere di 2 caratteri (es: IT).", "Validazione", JOptionPane.WARNING_MESSAGE);
+        if (sigla.length() != 2) {
+            JOptionPane.showMessageDialog(this, "La sigla provincia deve essere di 2 caratteri (es: MI).", "Validazione", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        naz.setCodiceIso2(cod);
-        naz.setDescrizioneIt(desc);
+        prov.setSigla(sigla);
+        prov.setNome(nome);
 
         confirmed = true;
         dispose();
     }
 
     public boolean isConfirmed() { return confirmed; }
-    public Nazione getNazione() { return naz; }
+    public Provincia getProvincia() { return prov; }
 
-    private static Nazione cloneNazione(Nazione src) {
-        return new Nazione(src.getId(), src.getCodiceIso2(), src.getDescrizioneIt());
+    private static Provincia cloneProvincia(Provincia src) {
+        return new Provincia(src.getId(), src.getSigla(), src.getNome());
     }
 
     private static String nvl(String s) { return s == null ? "" : s; }
