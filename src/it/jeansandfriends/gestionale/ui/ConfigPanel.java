@@ -5,10 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class AziendaPanel extends JPanel {
+public class ConfigPanel extends JPanel {
 
-    public AziendaPanel() {
+    public ConfigPanel() {
         setLayout(new BorderLayout());
-        add(new JLabel("TODO: editor dati Azienda (singola riga)"), BorderLayout.CENTER);
+        add(new JLabel("TODO: Config (dati azienda, percorsi, preferenze)"), BorderLayout.CENTER);
     }
 }
