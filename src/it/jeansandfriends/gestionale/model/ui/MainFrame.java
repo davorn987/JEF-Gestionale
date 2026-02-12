@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
     private static final String CARD_HOME = "HOME";
     private static final String CARD_CONFIG = "CONFIG";
     private static final String CARD_CLIENTI = "CLIENTI";
+    private static final String CARD_FORNITORI = "FORNITORI";
     private static final String CARD_IVA = "IVA";
     private static final String CARD_PAGAMENTI_TIPI = "PAGAMENTI_TIPI";
     private static final String CARD_PAGAMENTI = "PAGAMENTI";
@@ -38,6 +39,7 @@ public class MainFrame extends JFrame {
         contentPanel.add(new HomePanel(), CARD_HOME);
         contentPanel.add(new ConfigPanel(), CARD_CONFIG);
         contentPanel.add(new ClientiPanel(), CARD_CLIENTI);
+        contentPanel.add(new FornitoriPanel(), CARD_FORNITORI);
         contentPanel.add(new IvaPanel(), CARD_IVA);
         contentPanel.add(new PagamentiTipiPanel(), CARD_PAGAMENTI_TIPI);
         contentPanel.add(new PagamentiPanel(), CARD_PAGAMENTI);
@@ -69,6 +71,8 @@ public class MainFrame extends JFrame {
         JMenu anagrafica = new JMenu("Anagrafica");
         JMenuItem clienti = new JMenuItem("Clienti");
         clienti.addActionListener(e -> showCard(CARD_CLIENTI));
+        JMenuItem fornitori = new JMenuItem("Fornitori");
+        fornitori.addActionListener(e -> showCard(CARD_FORNITORI));
         JMenuItem iva = new JMenuItem("IVA");
         iva.addActionListener(e -> showCard(CARD_IVA));
 
@@ -83,6 +87,7 @@ public class MainFrame extends JFrame {
         province.addActionListener(e -> showCard(CARD_PROVINCE));
 
         anagrafica.add(clienti);
+        anagrafica.add(fornitori);
         anagrafica.add(iva);
         anagrafica.addSeparator();
         anagrafica.add(tipiPag);

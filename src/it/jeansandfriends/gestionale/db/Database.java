@@ -186,6 +186,39 @@ public final class Database {
             st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_dest_cliente_prog ON clienti_destinazioni(cliente_id, progressivo);");
 
             // --------------------
+            // FORNITORI
+            // --------------------
+            st.execute("CREATE TABLE IF NOT EXISTS fornitori (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "codice_fornitore INTEGER NOT NULL," +
+                    "attivo INTEGER NOT NULL DEFAULT 1," +
+                    "ragione_sociale TEXT NOT NULL," +
+                    "indirizzo TEXT," +
+                    "cap TEXT," +
+                    "citta TEXT," +
+                    "provincia_id INTEGER," +
+                    "nazione_id INTEGER," +
+                    "telefono TEXT," +
+                    "cellulare TEXT," +
+                    "piva TEXT," +
+                    "cf TEXT," +
+                    "iva_id INTEGER," +
+                    "pagamento_id INTEGER," +
+                    "email TEXT," +
+                    "note TEXT," +
+                    "FOREIGN KEY (iva_id) REFERENCES iva(id)," +
+                    "FOREIGN KEY (pagamento_id) REFERENCES pagamenti(id)," +
+                    "FOREIGN KEY (nazione_id) REFERENCES nazioni(id)," +
+                    "FOREIGN KEY (provincia_id) REFERENCES province(id)" +
+                    ");");
+
+            st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_fornitori_codice_fornitore ON fornitori(codice_fornitore);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_fornitori_ragione_sociale ON fornitori(ragione_sociale);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_fornitori_attivo ON fornitori(attivo);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_fornitori_nazione ON fornitori(nazione_id);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_fornitori_provincia ON fornitori(provincia_id);");
+
+            // --------------------
             // DEFAULTS + SEED
             // --------------------
             st.execute("INSERT OR IGNORE INTO azienda (id, ragione_sociale) VALUES (1, '');");
