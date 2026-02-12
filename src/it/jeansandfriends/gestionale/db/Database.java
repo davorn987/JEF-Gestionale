@@ -219,12 +219,55 @@ public final class Database {
             st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_dest_cliente_prog ON clienti_destinazioni(cliente_id, progressivo);");
 
             // --------------------
+            // PRODOTTI - ANAGRAFICHE BASE
+            // --------------------
+            st.execute("CREATE TABLE IF NOT EXISTS prodotti_categorie (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "codice TEXT NOT NULL," +
+                    "descrizione TEXT," +
+                    "attivo INTEGER NOT NULL DEFAULT 1" +
+                    ");");
+            st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_prodotti_categorie_codice ON prodotti_categorie(codice);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_prodotti_categorie_attivo ON prodotti_categorie(attivo);");
+
+            st.execute("CREATE TABLE IF NOT EXISTS unita_misura (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "codice TEXT NOT NULL," +
+                    "descrizione TEXT," +
+                    "attivo INTEGER NOT NULL DEFAULT 1" +
+                    ");");
+            st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_unita_misura_codice ON unita_misura(codice);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_unita_misura_attivo ON unita_misura(attivo);");
+
+            st.execute("CREATE TABLE IF NOT EXISTS attributi_categorie (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "codice TEXT NOT NULL," +
+                    "descrizione TEXT," +
+                    "attivo INTEGER NOT NULL DEFAULT 1" +
+                    ");");
+            st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_attributi_categorie_codice ON attributi_categorie(codice);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_attributi_categorie_attivo ON attributi_categorie(attivo);");
+
+            st.execute("CREATE TABLE IF NOT EXISTS attributi (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "categoria_id INTEGER NOT NULL," +
+                    "codice TEXT NOT NULL," +
+                    "descrizione TEXT," +
+                    "attivo INTEGER NOT NULL DEFAULT 1," +
+                    "FOREIGN KEY (categoria_id) REFERENCES attributi_categorie(id)" +
+                    ");");
+            st.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_attributi_cat_codice ON attributi(categoria_id, codice);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_attributi_categoria ON attributi(categoria_id);");
+            st.execute("CREATE INDEX IF NOT EXISTS idx_attributi_attivo ON attributi(attivo);");
+
+            // --------------------
             // DEFAULTS + SEED
             // --------------------
             st.execute("INSERT OR IGNORE INTO azienda (id, ragione_sociale) VALUES (1, '');");
 
             seedNazioniFromLocaleIfEmpty(st);
             seedProvinceItaliaIfEmpty(st);
+            seedUnitaMisuraIfEmpty(st);
         }
     }
 
@@ -431,6 +474,19 @@ public final class Database {
         String s = sigla.replace("'", "''");
         String n = nome.replace("'", "''");
         st.execute("INSERT OR IGNORE INTO province (sigla, nome, attivo) VALUES ('" + s + "', '" + n + "', 1);");
+    }
+
+    private static void seedUnitaMisuraIfEmpty(Statement st) throws SQLException {
+        int cnt = 0;
+        try (ResultSet rs = st.executeQuery("SELECT COUNT(1) AS cnt FROM unita_misura;")) {
+            if (rs.next()) cnt = rs.getInt("cnt");
+        }
+        if (cnt > 0) return;
+
+        st.execute("INSERT OR IGNORE INTO unita_misura (codice, descrizione, attivo) VALUES ('PZ', 'Pezzi', 1);");
+        st.execute("INSERT OR IGNORE INTO unita_misura (codice, descrizione, attivo) VALUES ('KG', 'Chilogrammi', 1);");
+        st.execute("INSERT OR IGNORE INTO unita_misura (codice, descrizione, attivo) VALUES ('MT', 'Metri', 1);");
+        st.execute("INSERT OR IGNORE INTO unita_misura (codice, descrizione, attivo) VALUES ('LT', 'Litri', 1);");
     }
 
     private static void migrateClientiIfNeeded(Connection c) throws SQLException {
